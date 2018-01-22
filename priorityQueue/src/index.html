@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+  <title ng-bind="$root.title">MedWise Advisor</title>
+  <link rel="stylesheet" href="/dist/css/bundle.css">
+  <base href="/#">
+</head>
+
+<body class="skin-green-light page-background" ng-class="{'sidebar-mini': state.showSidebar, 'sidebar-collapse': state.collapseSidebar, 'sidebar-open': state.openSidebar }">
+  <div ng-view></div>
+  <script src="/dist/js/bundle.js"></script>
+  <script src="/dist/js/env.js"></script>
+</body>
+
+</html>

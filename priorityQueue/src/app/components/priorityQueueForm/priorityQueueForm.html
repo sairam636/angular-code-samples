@@ -1,0 +1,67 @@
+<header-component></header-component>
+<sidebar-component></sidebar-component>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <h1 ng-if="$ctrl.mode !== 'edit'">Create a New User-defined Priority Queue</h1>
+    <h1 ng-if="$ctrl.mode === 'edit'">Edit User-defined Priority Queue</h1>
+  </div>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="patient-search box box-default">
+          <div class="box-body">
+            <form class="patient-search-filters-content">
+              <div class="form-group" ng-class="{'has-error': !$ctrl.priorityQueue.name}">
+                <input class="form-control" ng-model="$ctrl.priorityQueue.name" placeholder="Queue Name" required/>
+              </div>
+            </form>
+            <priority-queue-filters filters="$ctrl.priorityQueue.filters"
+              indexed-properties="$ctrl.indexedProperties"
+              on-filters-updated="$ctrl.handleFiltersUpdated(filters)">
+            </priority-queue-filters>
+          </div>
+          <div class="box-body">
+            <priority-queue-secondary-filter-selection
+              indexed-properties="$ctrl.indexedProperties"
+              secondary-filters="$ctrl.priorityQueue.secondaryFilters"
+              on-secondary-filters-updated="$ctrl.handleSecondaryFiltersUpdated(secondaryFilters)">
+            </priority-queue-secondary-filter-selection>
+          </div>
+          <div class="box-body">
+            <priority-queue-display-columns
+              indexed-properties="$ctrl.indexedProperties"
+              display-columns="$ctrl.priorityQueue.displayColumns"
+              on-display-columns-updated="$ctrl.handleDisplayColumnsUpdated(displayColumns)">
+            </priority-queue-display-columns>
+          </div>
+          <div class="box-body">
+            <priority-queue-sorting
+              indexed-properties="$ctrl.indexedProperties"
+              sorting="$ctrl.priorityQueue.sorting"
+              on-sorting-updated="$ctrl.handleSortingUpdated(sorting)">
+            </priority-queue-sorting>
+          </div>
+          <div class="box-body">
+            <button class="btn btn-primary pull-right" ng-disabled="$ctrl.saving || !$ctrl.priorityQueue.name" ng-if="$ctrl.mode !== 'edit'" ng-click="$ctrl.saveFilter()"><i class="fa fa-fw fa-save"></i> Save Priority Queue</button>
+          </div>
+          <div class="box-body" ng-if="$ctrl.mode === 'edit'">
+            <button class="btn btn-sm btn-primary pull-right" ng-disabled="$ctrl.saving || !$ctrl.priorityQueue.name"  ng-click="$ctrl.updateFilter()"><i class="fa da-fw fa-save "></i> Update Priority Queue </button>
+            <button class="btn btn-sm btn-danger"  ng-click="$ctrl.removeFilter()"><i class="fa fa-trash-o "></i>  Delete Priority Queue </button>  
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <priority-queue-table
+          indexed-properties="$ctrl.indexedProperties"
+          table-title="'Preview Results'"
+          filters="$ctrl.priorityQueue.filters"
+          sorting="$ctrl.priorityQueue.sorting"
+          display-columns="$ctrl.priorityQueue.displayColumns">
+        </priority-queue-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer-component></footer-component>

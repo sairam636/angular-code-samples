@@ -1,0 +1,61 @@
+<header-component></header-component>
+<sidebar-component></sidebar-component>
+
+<div class="content-wrapper">
+  <div class="content-header">
+    <h1 ng-if="!$ctrl.selectedQueue">Priority Queues</h1>
+    <h1 ng-if="$ctrl.selectedQueue">Priority Queue: <em>{{$ctrl.selectedQueue.name}}</em></h1>
+  </div>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="patient-search box box-default">
+          <div class="box-body">
+            <div class="form-group">
+              <select ng-model="$ctrl.selectedQueueId" ng-change="$ctrl.onSelectedQueueChanged()" class="form-control">
+                <optgroup label="Queue Management">
+                  <option value="new">Create New Priority Queue...</option>
+                </optgroup>
+                <optgroup ng-if="$ctrl.userDefinedQueues.length" label="Your Queues">
+                  <option ng-repeat="filter in $ctrl.userDefinedQueues" ng-value="filter.id">
+                    {{filter.name}}
+                  </option>
+                </optgroup>
+                <optgroup ng-if="$ctrl.roleQueueGroups.length" label="Default Queues">
+                  <option ng-repeat="filter in $ctrl.roleQueueGroups" ng-value="filter.id">
+                    {{filter.name}}
+                  </option>
+                </optgroup>
+                <optgroup ng-repeat="(org, filters) in $ctrl.orgQueueGroups" label="{{org}} Queues">
+                  <option ng-repeat="filter in filters" ng-value="filter.id">
+                    {{filter.name}}
+                  </option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="pull-right" ng-if="$ctrl.isPriorityQueueEditable">
+              <a class="btn btn-sm btn-default" ng-if="$ctrl.selectedQueueId" ng-href="/queues/{{$ctrl.selectedQueueId}}/edit"><i class="fa fa-pencil "></i> Edit Priority Queue </a>
+            </div>
+            <priority-queue-secondary-filters
+              indexed-properties="$ctrl.indexedProperties"
+              filters="$ctrl.selectedQueue.filters"
+              secondary-filters="$ctrl.selectedQueue.secondaryFilters"
+              on-filters-updated="$ctrl.handleFiltersUpdated(filters)">
+            </priority-queue-secondary-filters>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid" ng-if="$ctrl.selectedQueueId">
+        <priority-queue-table
+          table-title="'Patient List'"
+          indexed-properties="$ctrl.indexedProperties"
+          filters="$ctrl.filters"
+          display-columns="$ctrl.selectedQueue.displayColumns"
+          sorting="$ctrl.selectedQueue.sorting">
+        </priority-queue-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer-component></footer-component>
